@@ -9,5 +9,4 @@ public class UfcFantasyBettingAppApplication {
   public static void main(String[] args) {
     SpringApplication.run(UfcFantasyBettingAppApplication.class, args);
   }
-
 }
