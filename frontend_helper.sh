@@ -1,11 +1,17 @@
 #!/usr/bin/env bash
-OPTION=$1
+COMMAND=$1
+OPTION=$2
 
 # Navigate into frontend root.
 cd frontend
 
-if [ "$OPTION" = '--run' ]; then
-  npm start
-elif [ "$OPTION" = '--install' ]; then
-  npm install
+# Translate standard options.
+if [ "$OPTION" = '--quiet' ]; then
+  OPTION="--silent"
+fi
+
+if [ "$COMMAND" = 'run' ]; then
+  npm start "$OPTION"
+elif [ "$COMMAND" = 'install' ]; then
+  npm install "$OPTION"
 fi

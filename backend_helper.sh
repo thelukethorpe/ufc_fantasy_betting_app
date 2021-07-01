@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
-OPTION=$1
+COMMAND=$1
+OPTION=$2
 
 # Navigate into backend root.
 cd backend
 
-if [ "$OPTION" = '--run' ]; then
+if [ "$COMMAND" = 'run' ]; then
   mvn spring-boot:run
-elif [ "$OPTION" = '--install' ]; then
-  mvn install -DskipTests -T1C
+elif [ "$COMMAND" = 'build' ]; then
+  mvn clean package -DskipTests -T1C  "$OPTION"
+elif [ "$COMMAND" = 'purge' ]; then
+  mvn dependency:purge-local-repository
 fi

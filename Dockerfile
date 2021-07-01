@@ -19,9 +19,10 @@ WORKDIR /app
 COPY . /app
 
 # Build sources.
-RUN sh backend_helper.sh --install
-RUN sh frontend_helper.sh --install
+RUN sh backend_helper.sh build --quiet
+RUN sh frontend_helper.sh install --quiet
 
 # Deploy.
 EXPOSE 8080
-CMD ["sh", "backend_helper.sh", "--run", "&&", "sh", "frontend_helper.sh", "--run"]
+CMD sh backend_helper.sh purge \
+  && sh backend_helper.sh run & sh frontend_helper.sh run

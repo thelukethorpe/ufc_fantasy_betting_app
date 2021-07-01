@@ -13,7 +13,7 @@
   <artifactId>ufc_fantasy_betting_app</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>ufc_fantasy_betting_app</name>
-  <description>Demo project for Spring Boot</description>
+  <description>UFC Fantasy Betting App</description>
   <properties>
     <java.version>11</java.version>
     <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
