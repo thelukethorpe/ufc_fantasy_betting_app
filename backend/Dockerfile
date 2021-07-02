@@ -14,4 +14,4 @@ RUN sh backend_helper.sh build --quiet
 
 # Deploy.
 EXPOSE 8080
-CMD sh backend_helper.sh run
+CMD sh backend_helper.sh run --server.port=$PORT
