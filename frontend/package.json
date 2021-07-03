@@ -48,6 +48,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-standard": "^4.0.2",
+    "react-material-ui-carousel": "^2.2.6",
     "react-router-dom": "^5.2.0"
   }
 }
