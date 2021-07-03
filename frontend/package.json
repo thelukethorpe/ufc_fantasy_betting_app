@@ -38,6 +38,8 @@
     ]
   },
   "devDependencies": {
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/styles": "^4.11.4",
     "eslint": "^7.12.0",
     "eslint-config-standard": "^15.0.0",
     "eslint-plugin-import": "^2.22.1",
@@ -45,6 +47,8 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.21.5",
-    "eslint-plugin-standard": "^4.0.2"
+    "eslint-plugin-standard": "^4.0.2",
+    "react-material-ui-carousel": "^2.2.6",
+    "react-router-dom": "^5.2.0"
   }
 }

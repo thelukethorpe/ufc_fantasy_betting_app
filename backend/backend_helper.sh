@@ -7,11 +7,12 @@ if [ "$COMMAND" = 'run' ]; then
 elif [ "$COMMAND" = 'build' ]; then
   mvn clean package -DskipTests -T1C $OPTION
 elif [ "$COMMAND" = 'test' ]; then
+  SUPPRESS_DOWNLOAD_LOGS="--no-transfer-progress"
   if [ "$OPTION" = '--unit' ]; then
-    mvn '-Dtest=**.*UnitTest' test
+    mvn '-Dtest=**.*UnitTest' test $SUPPRESS_DOWNLOAD_LOGS
   elif [ "$OPTION" = '--integration' ]; then
-    mvn '-Dtest=**.*IntegrationTest' test
+    mvn '-Dtest=**.*IntegrationTest' test $SUPPRESS_DOWNLOAD_LOGS
   elif [ "$OPTION" = '--all' ]; then
-    mvn '-Dtest=**.*Test' test
+    mvn '-Dtest=**.*Test' test $SUPPRESS_DOWNLOAD_LOGS
   fi
 fi
