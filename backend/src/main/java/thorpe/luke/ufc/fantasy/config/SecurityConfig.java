@@ -1,6 +1,7 @@
 package thorpe.luke.ufc.fantasy.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,6 +18,9 @@ import thorpe.luke.ufc.fantasy.service.UserService;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+  @Value("${heroku.https.enabled}")
+  private Boolean herokuHttpsEnabled;
+
   private final UserService userService;
 
   @Autowired
@@ -26,6 +30,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
+    if (herokuHttpsEnabled) {
+      http.requiresChannel()
+          .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
+          .requiresSecure();
+    }
     http.csrf()
         .disable()
         .addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
