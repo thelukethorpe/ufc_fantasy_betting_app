@@ -1,14 +1,5 @@
 import React from 'react'
-import {
-  AppBar,
-  Button,
-  IconButton,
-  makeStyles,
-  Paper,
-  Toolbar,
-  Typography
-} from '@material-ui/core'
-import MenuIcon from '@material-ui/icons/Menu'
+import { makeStyles, Paper, Typography } from '@material-ui/core'
 import Carousel from 'react-material-ui-carousel'
 import CarouselImage1 from './carousel_1.png'
 import CarouselImage2 from './carousel_2.png'
@@ -16,12 +7,6 @@ import CarouselImage3 from './carousel_3.png'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
-  },
-  menuButton: {
-    marginRight: theme.spacing(2)
-  },
-  title: {
     flexGrow: 1
   },
   carousel: {
@@ -62,19 +47,6 @@ const Home = () => {
 
   return (
     <div>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton edge="start" className={classes.menuButton}
-                      color="inherit" aria-label="menu">
-            <MenuIcon/>
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            UFC Fantasy Betting
-          </Typography>
-          <Button color="inherit">Sign Up</Button>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
-      </AppBar>
       <Carousel className={classes.carousel}>
         {
           carouselItems.map((item, i) => <CarouselItem key={i} item={item}
