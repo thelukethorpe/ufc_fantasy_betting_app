@@ -17,7 +17,7 @@ const sternbach = {
 }
 
 export default createMuiTheme({
-  typography: {
+  root: {
     fontFamily: 'Sternbach, Segoe UI'
   },
   overrides: {

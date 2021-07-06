@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import thorpe.luke.ufc.fantasy.resource.UserResource;
 import thorpe.luke.ufc.fantasy.service.UserService;
@@ -37,6 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
     http.csrf()
         .disable()
+        .addFilterBefore(new CORSFilter(), ChannelProcessingFilter.class)
         .addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
         .authorizeRequests()
         .antMatchers(UserResource.USER_AUTH_SIGN_UP_PATH, UserResource.USER_AUTH_LOGIN_PATH)

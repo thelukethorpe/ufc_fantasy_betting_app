@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import {
   AppBar,
@@ -10,6 +10,11 @@ import {
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import Routes from '../constants/Routes'
+import LoginDialog from './LoginDialog'
+import theme from '../theme'
+import * as AuthenticationAPI from '../api/AuthenticationAPI'
+import UserContext from '../pages/UserContext'
+import { useSnackbar } from 'notistack'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,12 +29,26 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const UfcFantasyBettingAppBar = () => {
-  const classes = useStyles()
+  const classes = useStyles(theme)
   const history = useHistory()
+  const { enqueueSnackbar } = useSnackbar()
+  const {
+    isLoggedIn,
+    reloadUserContext
+  } = useContext(UserContext)
+  const context = {
+    enqueueSnackbar,
+    reloadUserContext
+  }
 
-  function navigateToPage (event, route) {
+  const navigateToPage = (event, route) => {
     event.preventDefault()
     history.push(route)
+  }
+
+  const logout = (event) => {
+    AuthenticationAPI.logout(context)
+    navigateToPage(event, Routes.HOME)
   }
 
   return (
@@ -39,13 +58,26 @@ const UfcFantasyBettingAppBar = () => {
                     color="inherit" aria-label="menu">
           <MenuIcon/>
         </IconButton>
-        <Typography variant="h6" className={classes.title}>
-          UFC Fantasy Betting
+        <Typography className={classes.title}>
+          <Button color="inherit"
+                  onClick={event => navigateToPage(event, Routes.HOME)}>
+            <Typography variant="h6" className={classes.title}>
+              UFC Fantasy Betting
+            </Typography>
+          </Button>
         </Typography>
-        <Button onClick={event => navigateToPage(event, Routes.SIGN_UP)}
-                color="inherit">Sign Up</Button>
-        <Button onClick={event => navigateToPage(event, Routes.LOGIN)}
-                color="inherit">Login</Button>
+        {
+          !isLoggedIn
+            ? (<>
+              <Button onClick={event => navigateToPage(event, Routes.SIGN_UP)}
+                      color="inherit">Sign Up</Button>
+              <LoginDialog/>
+            </>)
+            : (<>
+              <Button onClick={logout} color="inherit">Logout</Button>
+            </>)
+        }
+
       </Toolbar>
     </AppBar>
   )

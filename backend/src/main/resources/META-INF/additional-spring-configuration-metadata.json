@@ -10,4 +10,5 @@
       "type": "java.lang.Boolean",
       "description": "Enforces that API requests made via Heroku are encrypted."
     }
-  ] }
+  ]
+}

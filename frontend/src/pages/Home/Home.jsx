@@ -4,6 +4,7 @@ import Carousel from 'react-material-ui-carousel'
 import CarouselImage1 from './carousel_1.png'
 import CarouselImage2 from './carousel_2.png'
 import CarouselImage3 from './carousel_3.png'
+import theme from '../../theme'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Home = () => {
-  const classes = useStyles()
+  const classes = useStyles(theme)
   const carouselItems = [
     {
       name: 'UFC Fantasy Betting',
@@ -59,7 +60,7 @@ const Home = () => {
 
 const CarouselItem = (props) => {
   return (
-    <Paper className={props.className} maxWidth="1920px"
+    <Paper className={props.className}
            style={{ backgroundImage: props.item.image }}>
       <Typography variant="h1" align="center"
                   color="secondary">{props.item.name}</Typography>

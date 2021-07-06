@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import {
   Avatar,
+  Button,
+  CircularProgress,
   Container,
   FormControl,
   IconButton,
@@ -14,6 +16,10 @@ import {
 import { Visibility, VisibilityOff } from '@material-ui/icons'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import DevelopmentWarningCard from '../../components/DevelopmentWarningCard'
+import { signUp } from '../../api/AuthenticationAPI'
+import { useSnackbar } from 'notistack'
+import theme from '../../theme'
+import UserContext from '../UserContext'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,29 +49,44 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const SignUp = () => {
-  const classes = useStyles()
-  const [values, setValues] = React.useState({
-    username: '',
-    password: '',
-    showPassword: false
-  })
+  const classes = useStyles(theme)
+  const { enqueueSnackbar } = useSnackbar()
+  const { reloadUserContext } = useContext(UserContext)
+  const context = {
+    enqueueSnackbar,
+    reloadUserContext
+  }
 
-  const handleChange = (prop) => (event) => {
-    setValues({
-      ...values,
-      [prop]: event.target.value
-    })
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value)
+  }
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value)
   }
 
   const handleClickShowPassword = () => {
-    setValues({
-      ...values,
-      showPassword: !values.showPassword
-    })
+    setShowPassword(!showPassword)
   }
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault()
+  }
+
+  const onSubmit = async () => {
+    setIsSubmitting(true)
+    const success = await signUp(username, password, context)
+    if (success) {
+      history.back()
+    } else {
+      setPassword('')
+    }
+    setIsSubmitting(false)
   }
 
   return (
@@ -76,45 +97,56 @@ const SignUp = () => {
       <Typography component="h1" variant="h5">
         Sign Up
       </Typography>
-      <form className={classes.form} noValidate>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          id="username"
-          label="Username"
-          name="username"
-          autoComplete="username"
-          autoFocus
+      <TextField
+        variant="outlined"
+        margin="normal"
+        fullWidth
+        id="username"
+        label="Username"
+        value={username}
+        onChange={handleUsernameChange}
+        autoFocus
+      />
+      <FormControl variant="outlined"
+                   margin="normal"
+                   fullWidth>
+        <InputLabel
+          htmlFor="outlined-adornment-password">Password</InputLabel>
+        <OutlinedInput
+          id="outlined-adornment-password"
+          type={showPassword ? 'text' : 'password'}
+          value={password}
+          onChange={handlePasswordChange}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge="end"
+              >
+                {showPassword ? <Visibility/> : <VisibilityOff/>}
+              </IconButton>
+            </InputAdornment>
+          }
+          labelWidth={70}
         />
-        <FormControl variant="outlined"
-                     margin="normal"
-                     required
-                     fullWidth>
-          <InputLabel
-            htmlFor="outlined-adornment-password">Password</InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-password"
-            type={values.showPassword ? 'text' : 'password'}
-            value={values.password}
-            onChange={handleChange('password')}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {values.showPassword ? <Visibility/> : <VisibilityOff/>}
-                </IconButton>
-              </InputAdornment>
-            }
-            labelWidth={70}
-          />
-        </FormControl>
-      </form>
+      </FormControl>
+      <Button
+        type="submit"
+        fullWidth
+        variant="contained"
+        color="primary"
+        onClick={onSubmit}
+        disabled={isSubmitting}>
+        {isSubmitting && (
+          <>
+            <CircularProgress size={15}/>
+            &nbsp;&nbsp;
+          </>
+        )}
+        Sign Up
+      </Button>
       <DevelopmentWarningCard className={classes.warningCard}/>
     </Container>
   )
