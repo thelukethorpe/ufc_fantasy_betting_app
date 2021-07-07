@@ -1,4 +1,7 @@
-const API = '/api'
+const HTTP_PROXY = process.env.REACT_APP_API_URL
+  ? process.env.REACT_APP_API_URL
+  : 'http://localhost:8080'
+const API = HTTP_PROXY + '/api'
 const API_AUTH = API + '/user/auth'
 
 export default {

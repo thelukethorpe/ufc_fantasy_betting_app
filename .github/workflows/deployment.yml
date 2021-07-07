@@ -26,3 +26,7 @@ jobs:
           heroku_email: ${{secrets.HEROKU_OWNER_EMAIL}}
           usedocker: true
           appdir: frontend
+          docker_build_args: |
+            API_URL
+        env:
+          API_URL: ${{secrets.HEROKU_API_URL}}
