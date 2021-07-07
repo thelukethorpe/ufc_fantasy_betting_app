@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "jwt.token.secret",
+      "type": "java.lang.String",
+      "description": "Secret key used to sign JWT tokens."
+    },
+    {
+      "name": "heroku.https.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Enforces that API requests made via Heroku are encrypted."
+    }
+  ]
+}

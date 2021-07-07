@@ -1,27 +1,13 @@
 import React from 'react'
-import {
-  AppBar,
-  Button,
-  IconButton,
-  makeStyles,
-  Paper,
-  Toolbar,
-  Typography
-} from '@material-ui/core'
-import MenuIcon from '@material-ui/icons/Menu'
+import { makeStyles, Paper, Typography } from '@material-ui/core'
 import Carousel from 'react-material-ui-carousel'
 import CarouselImage1 from './carousel_1.png'
 import CarouselImage2 from './carousel_2.png'
 import CarouselImage3 from './carousel_3.png'
+import theme from '../../theme'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
-  },
-  menuButton: {
-    marginRight: theme.spacing(2)
-  },
-  title: {
     flexGrow: 1
   },
   carousel: {
@@ -41,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Home = () => {
-  const classes = useStyles()
+  const classes = useStyles(theme)
   const carouselItems = [
     {
       name: 'UFC Fantasy Betting',
@@ -62,19 +48,6 @@ const Home = () => {
 
   return (
     <div>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton edge="start" className={classes.menuButton}
-                      color="inherit" aria-label="menu">
-            <MenuIcon/>
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            UFC Fantasy Betting
-          </Typography>
-          <Button color="inherit">Sign Up</Button>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
-      </AppBar>
       <Carousel className={classes.carousel}>
         {
           carouselItems.map((item, i) => <CarouselItem key={i} item={item}
@@ -87,7 +60,7 @@ const Home = () => {
 
 const CarouselItem = (props) => {
   return (
-    <Paper className={props.className} maxWidth="1920px"
+    <Paper className={props.className}
            style={{ backgroundImage: props.item.image }}>
       <Typography variant="h1" align="center"
                   color="secondary">{props.item.name}</Typography>
