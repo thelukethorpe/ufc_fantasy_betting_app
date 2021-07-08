@@ -10,6 +10,7 @@ import Home from './pages/Home/Home'
 import SignUp from './pages/SignUp/SignUp'
 import UfcFantasyBettingAppBar from './components/UfcFantasyBettingAppBar'
 import * as AuthenticationAPI from './api/AuthenticationAPI'
+import Favicon from 'react-favicon'
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(AuthenticationAPI.isLoggedIn())
@@ -25,6 +26,8 @@ const App = () => {
 
   return (
     <div>
+      <Favicon
+        url='https://raw.githubusercontent.com/thelukethorpe/ufc_fantasy_betting_app/main/frontend/public/favicon.ico'/>
       <ThemeProvider theme={theme}>
         <SnackbarProvider anchorOrigin={{
           vertical: 'bottom',
