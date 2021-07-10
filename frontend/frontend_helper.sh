@@ -18,4 +18,6 @@ elif [ "$COMMAND" = 'build-prod' ]; then
   npm install -g serve $OPTION
   npm install $OPTION
   REACT_APP_API_URL="$VALUE" npm run build $OPTION
+elif [ "$COMMAND" = 'lint' ]; then
+  npm run-script lint
 fi
