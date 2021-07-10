@@ -3,6 +3,10 @@ import { notifyResponseStatus } from '../utils/NotificationUtils'
 import Authentication from '../constants/Authentication'
 import { parseResponse } from '../utils/JsonUtils'
 
+export const getUsername = () => {
+  return sessionStorage.getItem(Authentication.USERNAME)
+}
+
 export const isLoggedIn = () => {
   return sessionStorage.getItem(Authentication.TOKEN) !== null
 }
@@ -57,7 +61,7 @@ export const login = async (username, password, context) => {
   return false
 }
 
-export function logout (context) {
+export const logout = (context) => {
   const {
     enqueueSnackbar,
     reloadUserContext

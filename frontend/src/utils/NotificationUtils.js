@@ -4,7 +4,9 @@ export const notifyResponseStatus = (response, getMsgOnSuccessful, context) => {
   const { enqueueSnackbar } = context
 
   if (response.http.ok) {
-    enqueueSnackbar(getMsgOnSuccessful(response.body), { variant: 'success' })
+    if (getMsgOnSuccessful !== null) {
+      enqueueSnackbar(getMsgOnSuccessful(response.body), { variant: 'success' })
+    }
     return true
   }
 
