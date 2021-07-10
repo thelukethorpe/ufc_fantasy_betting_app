@@ -5,10 +5,8 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-@Component
 public class CORSFilter extends OncePerRequestFilter {
 
   @Override
@@ -20,7 +18,8 @@ public class CORSFilter extends OncePerRequestFilter {
     response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
     response.setHeader("Access-Control-Max-Age", "3600");
     response.setHeader(
-        "Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me");
+        "Access-Control-Allow-Headers",
+        "Authorization, Content-Type, Accept, X-Requested-With, remember-me");
     filterChain.doFilter(request, response);
   }
 }

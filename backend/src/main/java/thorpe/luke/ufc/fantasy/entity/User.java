@@ -1,10 +1,13 @@
 package thorpe.luke.ufc.fantasy.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -15,6 +18,7 @@ public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "ID")
   private Long id;
 
   @Column(name = "USERNAME", length = MAX_USERNAME_LENGTH, nullable = false, unique = true)
@@ -22,6 +26,10 @@ public class User {
 
   @Column(name = "PASSWORD", nullable = false)
   private String password;
+
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "WALLET_ID", referencedColumnName = "ID")
+  private Wallet wallet;
 
   public Long getId() {
     return id;
@@ -45,5 +53,13 @@ public class User {
 
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  public Wallet getWallet() {
+    return wallet;
+  }
+
+  public void setWallet(Wallet wallet) {
+    this.wallet = wallet;
   }
 }
