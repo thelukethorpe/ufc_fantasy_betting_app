@@ -8,7 +8,9 @@ import { SnackbarProvider } from 'notistack'
 import UserContext from './pages/UserContext'
 import Home from './pages/Home/Home'
 import SignUp from './pages/SignUp/SignUp'
-import UfcFantasyBettingAppBar from './components/UfcFantasyBettingAppBar'
+import Leaderboard from './pages/Leaderboard/Leaderboard'
+import Profile from './pages/Profile/Profile'
+import AppTopBar from './components/bars/AppTopBar'
 import * as AuthenticationAPI from './api/AuthenticationAPI'
 import Favicon from 'react-favicon'
 
@@ -38,14 +40,12 @@ const App = () => {
             reloadUserContext
           }}>
             <Router>
-              <UfcFantasyBettingAppBar/>
+              <AppTopBar/>
               <Switch>
-                <Route path={Routes.SIGN_UP}>
-                  <SignUp/>
-                </Route>
-                <Route path={Routes.HOME}>
-                  <Home/>
-                </Route>
+                <Route path={Routes.LEADERBOARD} component={Leaderboard}/>
+                <Route path={Routes.SIGN_UP} component={SignUp}/>
+                <Route path={Routes.PROFILE} component={Profile}/>
+                <Route path={Routes.HOME} component={Home}/>
               </Switch>
             </Router>
           </UserContext.Provider>

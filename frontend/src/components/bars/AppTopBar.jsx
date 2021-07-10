@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import {
   AppBar,
@@ -8,13 +8,14 @@ import {
   Toolbar,
   Typography
 } from '@material-ui/core'
-import MenuIcon from '@material-ui/icons/Menu'
-import Routes from '../constants/Routes'
-import LoginDialog from './LoginDialog'
-import theme from '../theme'
-import * as AuthenticationAPI from '../api/AuthenticationAPI'
-import UserContext from '../pages/UserContext'
+import Routes from '../../constants/Routes'
+import LoginDialog from '../dialogs/LoginDialog'
+import theme from '../../theme'
+import * as AuthenticationAPI from '../../api/AuthenticationAPI'
+import UserContext from '../../pages/UserContext'
 import { useSnackbar } from 'notistack'
+import AppSideBar from './AppSideBar'
+import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const UfcFantasyBettingAppBar = () => {
+const AppTopBar = () => {
   const classes = useStyles(theme)
   const history = useHistory()
   const { enqueueSnackbar } = useSnackbar()
@@ -36,12 +37,23 @@ const UfcFantasyBettingAppBar = () => {
     isLoggedIn,
     reloadUserContext
   } = useContext(UserContext)
+  const currentPath = window.location.pathname
   const context = {
     enqueueSnackbar,
     reloadUserContext
   }
 
-  const navigateToPage = (event, route) => {
+  useEffect(() => {
+    Routes.PROTECTED_LIST.forEach((routePath) => {
+      if (!isLoggedIn && currentPath === routePath) {
+        enqueueSnackbar('You must be logged in to see this page.',
+          { variant: 'info' })
+        history.push(Routes.SIGN_UP)
+      }
+    })
+  }, [isLoggedIn, currentPath])
+
+  const navigateToPage = (route) => (event) => {
     event.preventDefault()
     history.push(route)
   }
@@ -54,13 +66,10 @@ const UfcFantasyBettingAppBar = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <IconButton edge="start" className={classes.menuButton}
-                    color="inherit" aria-label="menu">
-          <MenuIcon/>
-        </IconButton>
+        <AppSideBar/>
         <Typography className={classes.title}>
           <Button color="inherit"
-                  onClick={event => navigateToPage(event, Routes.HOME)}>
+                  onClick={navigateToPage(Routes.HOME)}>
             <Typography variant="h6" className={classes.title}>
               UFC Fantasy Betting
             </Typography>
@@ -69,11 +78,15 @@ const UfcFantasyBettingAppBar = () => {
         {
           !isLoggedIn
             ? (<>
-              <Button onClick={event => navigateToPage(event, Routes.SIGN_UP)}
+              <Button onClick={navigateToPage(Routes.SIGN_UP)}
                       color="inherit">Sign Up</Button>
               <LoginDialog/>
             </>)
             : (<>
+              <IconButton color="inherit"
+                          onClick={navigateToPage(Routes.PROFILE)}>
+                <AccountCircleIcon/>
+              </IconButton>
               <Button onClick={logout} color="inherit">Logout</Button>
             </>)
         }
@@ -83,4 +96,4 @@ const UfcFantasyBettingAppBar = () => {
   )
 }
 
-export default UfcFantasyBettingAppBar
+export default AppTopBar

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import thorpe.luke.ufc.fantasy.converter.UserConverter;
 import thorpe.luke.ufc.fantasy.dto.AuthenticationDto;
 import thorpe.luke.ufc.fantasy.dto.UserDto;
+import thorpe.luke.ufc.fantasy.dto.UserProfileDto;
 import thorpe.luke.ufc.fantasy.entity.User;
 import thorpe.luke.ufc.fantasy.service.UserService;
 import thorpe.luke.ufc.fantasy.validator.UserValidator;
@@ -24,6 +26,7 @@ public class UserResource {
   public static final String USER_AUTH_PATH = USER_PATH + "/auth";
   public static final String USER_AUTH_SIGN_UP_PATH = USER_AUTH_PATH + "/sign-up";
   public static final String USER_AUTH_LOGIN_PATH = USER_AUTH_PATH + "/login";
+  public static final String USER_PROFILE_PATH = USER_PATH + "/profile";
 
   private final UserValidator userValidator;
   private final UserConverter userConverter;
@@ -57,5 +60,12 @@ public class UserResource {
     String username = userDto.getUsername();
     String token = userService.getTokenFromUsername(username);
     return new AuthenticationDto(username, token);
+  }
+
+  @GetMapping(value = USER_PROFILE_PATH, produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseStatus(code = HttpStatus.OK)
+  public ResponseEntity<UserProfileDto> getUserProfile() {
+    User currentUser = userService.getCurrentUser();
+    return ResponseEntity.ok().body(userConverter.convertToProfileDto(currentUser));
   }
 }

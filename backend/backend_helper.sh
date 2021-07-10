@@ -15,4 +15,6 @@ elif [ "$COMMAND" = 'test' ]; then
   elif [ "$OPTION" = '--all' ]; then
     mvn '-Dtest=**.*Test' test $SUPPRESS_DOWNLOAD_LOGS
   fi
+elif [ "$COMMAND" = 'lint' ]; then
+    mvn com.coveo:fmt-maven-plugin:format
 fi

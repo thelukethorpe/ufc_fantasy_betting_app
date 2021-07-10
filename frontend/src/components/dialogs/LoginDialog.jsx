@@ -15,10 +15,10 @@ import {
   TextField
 } from '@material-ui/core'
 import { Visibility, VisibilityOff } from '@material-ui/icons'
-import { login } from '../api/AuthenticationAPI'
 import { useSnackbar } from 'notistack'
-import theme from '../theme'
-import UserContext from '../pages/UserContext'
+import theme from '../../theme'
+import UserContext from '../../pages/UserContext'
+import * as AuthenticationAPI from '../../api/AuthenticationAPI'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,7 +60,7 @@ const LoginDialog = () => {
 
   const onSubmit = async () => {
     setIsSubmitting(true)
-    const success = await login(username, password, context)
+    const success = await AuthenticationAPI.login(username, password, context)
     if (success) {
       setIsOpen(false)
     }

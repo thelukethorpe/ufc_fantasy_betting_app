@@ -16,10 +16,11 @@ import {
 import { Visibility, VisibilityOff } from '@material-ui/icons'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import DevelopmentWarningCard from '../../components/DevelopmentWarningCard'
-import { signUp } from '../../api/AuthenticationAPI'
 import { useSnackbar } from 'notistack'
 import theme from '../../theme'
 import UserContext from '../UserContext'
+import { useHistory } from 'react-router-dom'
+import * as AuthenticationAPI from '../../api/AuthenticationAPI'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,6 +51,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SignUp = () => {
   const classes = useStyles(theme)
+  const history = useHistory()
   const { enqueueSnackbar } = useSnackbar()
   const { reloadUserContext } = useContext(UserContext)
   const context = {
@@ -80,9 +82,9 @@ const SignUp = () => {
 
   const onSubmit = async () => {
     setIsSubmitting(true)
-    const success = await signUp(username, password, context)
+    const success = await AuthenticationAPI.signUp(username, password, context)
     if (success) {
-      history.back()
+      history.goBack()
     } else {
       setPassword('')
     }
