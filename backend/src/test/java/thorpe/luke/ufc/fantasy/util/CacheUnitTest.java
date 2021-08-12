@@ -4,27 +4,12 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import java.time.Duration;
 import org.junit.jupiter.api.Test;
+import thorpe.luke.ufc.fantasy.TestUtil.Day;
+import thorpe.luke.ufc.fantasy.TestUtil.Weather;
 
 public class CacheUnitTest {
 
-  public enum Day {
-    MONDAY,
-    TUESDAY,
-    WEDNESDAY,
-    THURSDAY,
-    FRIDAY,
-    SATURDAY,
-    SUNDAY
-  }
-
-  public enum Weather {
-    SUNNY,
-    RAINY,
-    CLOUDY,
-    WINDY
-  }
-
-  public Cache<Day, Weather> cache = new Cache<>(Duration.ofDays(1));
+  Cache<Day, Weather> cache = new Cache<>(Duration.ofDays(1));
 
   @Test
   public void testInitialCacheHasSizeZero() {
